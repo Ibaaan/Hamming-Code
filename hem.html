@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hamming Code</title>
+    <script>
+        function hammingCode() {
+            let inputMessage = document.getElementById('inputMessage').value;
+            inputMessage = inputMessage.split('').map(Number);
+
+            let cb1 = (inputMessage[0] + inputMessage[2] + inputMessage[3]) % 2;
+            let cb2 = (inputMessage[0] + inputMessage[1] + inputMessage[3]) % 2;
+            let cb3 = (inputMessage[1] + inputMessage[2] + inputMessage[3]) % 2;
+
+            inputMessage.push(cb1, cb2, cb3);
+            document.getElementById('outputMessage').value = inputMessage.join('');
+        }
+
+        function hammingCheck() {
+            let codedMessage = document.getElementById('outputMessage').value;
+            codedMessage = codedMessage.split('').map(Number);
+
+            let c1 = (codedMessage[0] + codedMessage[2] + codedMessage[3]) % 2;
+            let c2 = (codedMessage[0] + codedMessage[1] + codedMessage[3]) % 2;
+            let c3 = (codedMessage[1] + codedMessage[2] + codedMessage[3]) % 2;
+
+            if (c1 !== codedMessage[4] && c2 !== codedMessage[5] && c3 !== codedMessage[6]) {
+                codedMessage[3] = (codedMessage[3] + 1) % 2;
+            } else if (c1 !== codedMessage[4] && c2 !== codedMessage[5]) {
+                codedMessage[0] = (codedMessage[0] + 1) % 2;
+            } else if (c2 !== codedMessage[5] && c3 !== codedMessage[6]) {
+                codedMessage[1] = (codedMessage[1] + 1) % 2;
+            } else if (c1 !== codedMessage[4] && c3 !== codedMessage[6]) {
+                codedMessage[2] = (codedMessage[2] + 1) % 2;
+            }
+
+            codedMessage = codedMessage.join('');
+            document.getElementById('checkMessage').value = codedMessage;
+        }
+    </script>
+</head>
+<body>
+    <h1>Hamming Code By Ivan Kushtanov</h1>
+    <p><input type="text" id="inputMessage" placeholder="Input message, 4 bits"></p>
+    <p><input type="button" value="Code" onclick="hammingCode()"></p>
+    <p><input type="text" id="outputMessage" placeholder="Coded message"></p>
+    <p><input type="button" value="Check" onclick="hammingCheck()"></p>
+    <p><input type="text" id="checkMessage" placeholder="Original message"></p>
+</body>
+</html>
